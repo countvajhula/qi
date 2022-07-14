@@ -830,3 +830,4 @@ This way to extend the language is intended for use in @bold{legacy versions of 
 }
 
 @close-eval[eval-for-docs]
+@(set! eval-for-docs #f)
