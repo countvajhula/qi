@@ -6,7 +6,6 @@
          @for-label[qi
                     racket
                     (only-in relation
-                             ->number
                              ->string
                              sum)]]
 
@@ -17,8 +16,9 @@
     (make-evaluator 'racket/base
                     '(require qi
                               (only-in racket/list range)
-                              racket/string
-                              relation)
+                              racket/string)
+                    '(define ->string number->string)
+                    '(define sum (lambda (args) (apply + args)))
                     '(define (sqr x)
                        (* x x)))))
 
