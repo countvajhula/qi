@@ -14,7 +14,7 @@
 @(define eval-for-docs
   (parameterize ([sandbox-output 'string]
                  [sandbox-error-output 'string]
-                 [sandbox-memory-limit 100])
+                 [sandbox-memory-limit #f])
     (make-evaluator 'racket/base
                     '(require qi
                               (only-in racket/list range)
