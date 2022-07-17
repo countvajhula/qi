@@ -4,11 +4,7 @@
          scribble/example
          racket/sandbox
          @for-label[qi
-                    racket
-                    (only-in relation
-                             ->number
-                             ->string
-                             sum)]]
+                    racket]]
 
 @(define eval-for-docs
   (parameterize ([sandbox-output 'string]
@@ -17,8 +13,7 @@
     (make-evaluator 'racket/base
                     '(require qi
                               (only-in racket/list range first rest)
-                              racket/string
-                              relation)
+                              racket/string)
                     '(define (sqr x)
                        (* x x)))))
 
@@ -762,7 +757,7 @@ Literals and quoted values (including syntax-quoted values) in a flow context ar
 
 A parenthesized expression that isn't one of the Qi forms is treated as @emph{partial function application}, where the syntactically-indicated arguments are pre-supplied to yield a partially applied function that is applied to the input values at runtime.
 
-Usually, the @racket[_] symbol indicates the trivial or identity flow, simply passing the inputs through unchanged. Within a partial application, however, the underscore indicates argument positions. If the expression includes a double underscore, @racket[__], then it is treated as a simple template such that the runtime arguments (however many there may be) are passed at the position indicated by the placeholder. Another type of template is indicated by using one or more single underscores. In this case, a specific number of runtime arguments are expected (corresponding to the number of blanks indicated by underscores). This more fine-grained template is powered under the hood by @other-doc['(lib "fancy-app/main.scrbl")].
+Usually, the @racket[_] symbol indicates the trivial or identity flow, simply passing the inputs through unchanged. Within a partial application, however, the underscore indicates argument positions. If the expression includes a double underscore, @racket[__], then it is treated as a simple template such that the runtime arguments (however many there may be) are passed at the position indicated by the placeholder. Another type of template is indicated by using one or more single underscores. In this case, a specific number of runtime arguments are expected (corresponding to the number of blanks indicated by underscores). This more fine-grained template is powered under the hood by @seclink["top" #:indirect? #t #:doc '(lib "fancy-app/main.scrbl")]{Fancy App: Scala-Style Magic Lambdas}.
 
 @bold{N.B.}: In the examples below, and elsewhere in these docs, for some reason the double underscore renders in such a way that it is indistinguishable from a single underscore. You will have to infer from context which one is being used, that is, if more than one argument is being passed to a position, it must be a double underscore!
 
@@ -833,3 +828,6 @@ This way to extend the language is intended for use in @bold{legacy versions of 
     (~> (2 3) + (qi:square sqr))
   ]
 }
+
+@close-eval[eval-for-docs]
+@(set! eval-for-docs #f)

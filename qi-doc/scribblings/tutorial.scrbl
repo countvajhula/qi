@@ -5,11 +5,7 @@
          racket/sandbox
          scribble-math/dollar
          @for-label[qi
-                    racket
-                    (only-in relation
-                             ->number
-                             ->string
-                             sum)]]
+                    racket]]
 
 @(define eval-for-docs
   (parameterize ([sandbox-output 'string]
@@ -19,8 +15,7 @@
                     '(require qi
                               (only-in racket/list range)
                               (only-in racket/function curry)
-                              racket/string
-                              (except-in relation curry))
+                              racket/string)
                     '(define (sqr x)
                        (* x x)))))
 
@@ -38,11 +33,11 @@ They contain similar material, but the interactive version includes additional s
 
 @section{Interactive Tutorial}
 
-This tutorial is distributed using the @other-doc['(lib "from-template/scribblings/from-template.scrbl")] package, and contains the same material as the documentation-based tutorial, but also includes additional material such as exercises, all presented in an interactive format.
+This tutorial is distributed using the @seclink["top" #:indirect? #t #:doc '(lib "from-template/scribblings/from-template.scrbl")]{Racket Templates} package, and contains the same material as the documentation-based tutorial, but also includes additional material such as exercises, all presented in an interactive format.
 
 @subsection{Installation}
 
-If you don't already have @other-doc['(lib "from-template/scribblings/from-template.scrbl")] installed, you'll need to run this first:
+If you don't already have @seclink["top" #:indirect? #t #:doc '(lib "from-template/scribblings/from-template.scrbl")]{Racket Templates} installed, you'll need to run this first:
 
 @codeblock{
   raco pkg install from-template
@@ -62,7 +57,7 @@ And then, downloading the tutorial is as simple as:
 
 @subsubsection[#:tag "drracket-tutorial"]{DrRacket}
 
-  Laurent Orseau's @code{select-send-sexpr} @seclink["top" #:doc '(lib "quickscript/scribblings/quickscript.scrbl")]{quickscript} allows you to evaluate expressions on-demand in a context-sensitive way. It is essential for the interactive experience. Follow the instructions @hyperlink["https://github.com/countvajhula/qi-tutorial"]{in the README} to install it. Once installed, you can use @code{Control-Shift-Enter} (customizable) to evaluate the expression indicated (and usually highlighted) by your cursor position.
+  Laurent Orseau's @code{select-send-sexpr} @seclink["top" #:indirect? #t #:doc '(lib "quickscript/scribblings/quickscript.scrbl")]{quickscript} allows you to evaluate expressions on-demand in a context-sensitive way. It is essential for the interactive experience. Follow the instructions @hyperlink["https://github.com/countvajhula/qi-tutorial"]{in the README} to install it. Once installed, you can use @code{Control-Shift-Enter} (customizable) to evaluate the expression indicated (and usually highlighted) by your cursor position.
 
 @subsubsection{Emacs}
 
@@ -70,7 +65,7 @@ And then, downloading the tutorial is as simple as:
 
 @subsubsection{Vim}
 
-D. Ben Knoble's @other-doc['(lib "tmux-vim-demo/scribblings/tmux-vim-demo.scrbl")] allows you to run expressions on demand with a split-pane view of your Vim buffer and a tmux session containing a Racket REPL. See @hyperlink["https://github.com/countvajhula/qi-tutorial"]{the README} for additional setup instructions once the package is installed. Once set up, you can simply use @code{r} (in Normal mode) to send the current line or visual selection to the REPL.
+D. Ben Knoble's @seclink["top" #:indirect? #t #:doc '(lib "tmux-vim-demo/scribblings/tmux-vim-demo.scrbl")]{tmux-vim-demo} allows you to run expressions on demand with a split-pane view of your Vim buffer and a tmux session containing a Racket REPL. See @hyperlink["https://github.com/countvajhula/qi-tutorial"]{the README} for additional setup instructions once the package is installed. Once set up, you can simply use @code{r} (in Normal mode) to send the current line or visual selection to the REPL.
 
 @section{Online Tutorial}
 
@@ -478,3 +473,6 @@ We've also learned that we can give names to flows via @racket[define-flow], and
 Qi provides lots of other forms that allow you to express flows conveniently and elegantly in different contexts. You can see all of them in the grammar of the @racket[☯] form, and they are individually documented under @secref["Qi_Forms"].
 
 Next, let's look at some examples to gain some insight into @seclink["When_Should_I_Use_Qi_"]{when to use Qi}.
+
+@close-eval[eval-for-docs]
+@(set! eval-for-docs #f)

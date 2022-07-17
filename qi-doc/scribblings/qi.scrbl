@@ -1,26 +1,9 @@
 #lang scribble/doc
+
 @require[scribble/manual
          scribble-abbrevs/manual
-         scribble/example
-         racket/sandbox
          @for-label[qi
-                    racket
-                    (only-in relation
-                             ->number
-                             ->string
-                             sum)]]
-
-@(define eval-for-docs
-  (parameterize ([sandbox-output 'string]
-                 [sandbox-error-output 'string]
-                 [sandbox-memory-limit #f])
-    (make-evaluator 'racket/base
-                    '(require qi
-                              (only-in racket/list range)
-                              racket/string
-                              relation)
-                    '(define (sqr x)
-                       (* x x)))))
+                    racket]]
 
 @title{Qi: A Functional, Flow-Oriented DSL}
 @author{Siddhartha Kasivajhula}
