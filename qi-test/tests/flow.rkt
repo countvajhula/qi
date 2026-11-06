@@ -10,6 +10,7 @@
          racket/list
          racket/string
          racket/function
+         racket/set
          racket/format
          racket/sandbox
          (except-in "private/util.rkt"
@@ -647,16 +648,23 @@
                     "p" "q")
                    "abpq"
                    "right-threading without template")
-     (check-equal? ((☯ (~>> △ (sort < #:key sqr)))
-                    (list 2 1 3))
-                   (list 1 4 9)
-                   "pre-supplied keyword arguments with right chirality")
+     (let ([s (set 1 2 3)])
+       (check-true ((☯ (~>> string->number (set-member? s)))
+                    "3")
+                   "right-threading preserves chirality")
+       (check-false ((☯ (~>> string->number (not (set-member? s))))
+                     "3")
+                    "right-threading preserves chirality"))
      ;; TODO: propagate threading side to nested clauses
      ;; (check-equal? (on ("p" "q")
      ;;                   (~>> (>< (string-append "a" "b"))
      ;;                        string-append))
      ;;               "abpabq"
      ;;               "right-threading without template")
+     (check-equal? ((☯ (~>> △ (sort < #:key sqr)))
+                    (list 2 1 3))
+                   (list 1 4 9)
+                   "pre-supplied keyword arguments with right chirality")
      (check-equal? ((☯ (thread-right add1
                                      (* 2)
                                      number->string
