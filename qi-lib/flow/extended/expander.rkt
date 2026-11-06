@@ -111,6 +111,10 @@ core language's use of #%app, etc.).
     XOR
     (and f:closed-floe ...)
     (or f:closed-floe ...)
+    (~>/form (not f)
+             #:when (eq? 'right (syntax-property this-syntax 'chirality))
+             #:with ff (make-right-chiral #'f)
+             (syntax-property #'(not ff) 'chirality 'wrong))
     (not f:floe)
     #:binding (nest f nested)
     (all f:closed-floe)
