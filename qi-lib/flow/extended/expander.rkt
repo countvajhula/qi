@@ -69,11 +69,19 @@ core language's use of #%app, etc.).
     (thread f:floe ...)
     #:binding (nest f ... nested)
 
+    (~>/form (tee f ...)
+             #:when (eq? 'right (syntax-property this-syntax 'chirality))
+             #:with (ff ...) (map make-right-chiral (syntax->list #'(f ...)))
+             (syntax-property #'(tee ff ...) 'chirality 'wrong))
     (tee f:floe ...)
     #:binding (nest f ... nested)
     tee
     ;; Note: `#:binding nested` is the implicit binding rule here
 
+    (~>/form (relay f ...)
+             #:when (eq? 'right (syntax-property this-syntax 'chirality))
+             #:with (ff ...) (map make-right-chiral (syntax->list #'(f ...)))
+             (syntax-property #'(relay ff ...) 'chirality 'wrong))
     (relay f:floe ...)
     #:binding (nest f ... nested)
     relay
@@ -94,6 +102,10 @@ core language's use of #%app, etc.).
     (~> ((~literal _) arg ...) #'(#%fine-template (_ arg ...)))
     _
     ground
+    (~>/form (amp f)
+             #:when (eq? 'right (syntax-property this-syntax 'chirality))
+             #:with ff (make-right-chiral #'f)
+             (syntax-property #'(amp ff) 'chirality 'wrong))
     amp
     (amp f:closed-floe)
     (~>/form (amp f0:clause f:clause ...)
@@ -102,8 +114,16 @@ core language's use of #%app, etc.).
              (report-syntax-error this-syntax
                "(>< flo)"
                "amp expects a single flow specification, but it received many."))
+    (~>/form (pass f)
+             #:when (eq? 'right (syntax-property this-syntax 'chirality))
+             #:with ff (make-right-chiral #'f)
+             (syntax-property #'(pass ff) 'chirality 'wrong))
     pass
     (pass f:closed-floe)
+    (~>/form (sep f)
+             #:when (eq? 'right (syntax-property this-syntax 'chirality))
+             #:with ff (make-right-chiral #'f)
+             (syntax-property #'(sep ff) 'chirality 'wrong))
     sep
     (sep f:closed-floe)
     collect
