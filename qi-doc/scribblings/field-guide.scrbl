@@ -324,6 +324,21 @@ Qi aims to produce good error messages that convey what the problem is and clear
 
 @bold{Common example}: Attempting to use @racket[null] as if it were a literal. Use @racket['()] or @racket[(gen null)] instead. See @secref["null_is_Not_a_Literal"] for more.
 
+@subsubsection{Displayln: Expected output-port?}
+
+@codeblock{
+; displayln: contract violation
+;  expected: output-port?
+;  given: ""
+;  argument position: 2nd
+;  other arguments...:
+;   "a"
+}
+
+@bold{Meaning}: @racket[displayln] expects precisely one argument aside from the port to output the message to, the latter of which is an optional second argument. It received something other than an output port as this second argument.
+
+@bold{Common example}: Attempting to print the output of intermediate flows using @racket[displayln] via a @seclink["Using_Side_Effects"]{side effect}, assuming that there is a single value there, when in reality there is more than one value at that point. Use either @racket[(~> ▽ displayln)] to print them after collecting them into a list or @racket[(>< displayln)] to print them all, separately.
+
 @subsubsection{List Arity Mismatch}
 
 @codeblock{
