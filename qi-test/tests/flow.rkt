@@ -782,12 +782,12 @@
        "<<"
        (check-equal? ((☯ (~>> (<< (string-append "p") "")))
                       "a" "b" "c")
-                     "pcpbpa"))
+                     "papbpc"))
       (test-suite
-       "<<"
+       ">>"
        (check-equal? ((☯ (~>> (>> (string-append "p") "")))
                       "a" "b" "c")
-                     "papbpc"))
+                     "pcpbpa"))
       (test-suite
        "feedback"
        (check-equal? ((☯ (~>> (feedback 3 (string-append "p"))))
@@ -817,7 +817,7 @@
                                        (string-append "p")
                                        (string-append "q"))))
                         (list "a") "")
-                       "apq")))
+                       "qpa")))
       (test-suite
        "clos"
        (check-equal? (((☯ (~>> (clos (string-append "p"))))
