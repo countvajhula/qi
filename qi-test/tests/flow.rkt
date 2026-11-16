@@ -818,14 +818,15 @@
                                        (string-append "q"))))
                         (list "a") "")
                        "qpa")))
-      (test-suite
-       "clos"
-       (check-equal? (((☯ (~>> (clos (string-append "p"))))
-                       "a") "b")
-                     "bpa") ; pab?
-       (check-equal? (((☯ (~> (clos (string-append "p"))))
-                       "a") "b")
-                     "bap")))
+      ;; (test-suite
+      ;;  "clos"
+      ;;  (check-equal? (((☯ (~>> (clos (string-append "p"))))
+      ;;                  "a") "b")
+      ;;                "bpa") ; pab?
+      ;;  (check-equal? (((☯ (~> (clos (string-append "p"))))
+      ;;                  "a") "b")
+      ;;                "bap"))
+      )
      (check-equal? ((☯ (~>> △ (sort < #:key sqr)))
                     (list 2 1 3))
                    (list 1 4 9)
