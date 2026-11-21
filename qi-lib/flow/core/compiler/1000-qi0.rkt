@@ -452,6 +452,22 @@ already handled during expansion by Syntax Spec.
 
   (define (clos-parser stx)
     (syntax-parse stx
+      [(_ onex #:left (prarg-pre ...) (prarg-mid ...) (prarg-post ...))
+       #'(λ args
+           (qi0->racket (~> (-< (gen prarg-pre ...)
+                                (~> (gen args) △)
+                                (gen prarg-mid ...)
+                                _
+                                (gen prarg-post ...))
+                            onex)))]
+      [(_ onex #:right (prarg-pre ...) (prarg-mid ...) (prarg-post ...))
+       #'(λ args
+           (qi0->racket (~> (-< (gen prarg-pre ...)
+                                _
+                                (gen prarg-mid ...)
+                                (~> (gen args) △)
+                                (gen prarg-post ...))
+                            onex)))]
       [_:id
        #:do [(define chirality (syntax-property stx 'chirality))]
        (if (and chirality (eq? chirality 'right))
@@ -460,16 +476,7 @@ already handled during expansion by Syntax Spec.
                [(f . args) (apply curryr f args)])
            #'(case-lambda
                [(f v) (curry f v)]
-               [(f . args) (apply curry f args)]))]
-      [(_ onex:clause)
-       #:do [(define chirality (syntax-property stx 'chirality))]
-       (if (and chirality (eq? chirality 'right))
-           #'(λ args
-               (qi0->racket (~> (-< _ (~> (gen args) △))
-                                onex)))
-           #'(λ args
-               (qi0->racket (~> (-< (~> (gen args) △) _)
-                                onex))))]))
+               [(f . args) (apply curry f args)]))]))
 
   (define (deforestable-clause-parser c)
     (syntax-parse c

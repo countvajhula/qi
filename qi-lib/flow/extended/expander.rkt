@@ -182,8 +182,14 @@ core language's use of #%app, etc.).
     (loop2 pred:closed-floe mapex:closed-floe combex:closed-floe)
     appleye
     (~> (~literal apply) #'appleye)
+    (~>/form (clos f)
+             #:when (eq? 'right (syntax-property this-syntax 'chirality))
+             #'(clos f #:right () () ()))
+    (~>/form (clos f)
+             #'(clos f #:left () () ()))
     clos
-    (clos onex:closed-floe)
+    (clos onex:closed-floe #:left (prarg-pre:racket-expr ...) (prarg-mid:racket-expr ...) (prarg-post:racket-expr ...))
+    (clos onex:closed-floe #:right (prarg-pre:racket-expr ...) (prarg-mid:racket-expr ...) (prarg-post:racket-expr ...))
     (esc ex:racket-expr)
     (~> ((~literal lambda) e ...)
         #'(esc (lambda e ...)))
