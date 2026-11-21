@@ -840,7 +840,13 @@
      (check-exn exn:fail?
                 (thunk (convert-compile-time-error
                         ((☯ (+)) 5 7 8)))
-                "function isn't curried when no arguments are provided"))
+                "function isn't curried when no arguments are provided")
+     (test-suite
+      "closures"
+      (check-equal? ((☯ (~> (clos list-ref) (_ 1))) '(1 2 3))
+                    2)
+      (check-equal? ((☯ (~>> (clos list-ref) (_ '(1 2 3)))) 1)
+                    2)))
     (test-suite
      "blanket template"
      (check-equal? ((☯ (+ __))) 0)
@@ -1650,7 +1656,19 @@
                    '("ba" "ca" "da")
                    "clos respects threading direction at the site of definition")
      (check-equal? ((☯ (~> (-< (~> second (clos *)) _) map)) (list 1 2 3))
-                   '(2 4 6))))
+                   '(2 4 6))
+     (check-equal? ((☯ (~> (clos +) (_ 4))) 1 2 3)
+                   10
+                   "closure may be applied using an application template")
+     (check-equal? ((☯ (~> (clos *) (fanout 3) compose apply)) 5)
+                   125
+                   "closures may be operated on using ordinary flows")
+     (test-suite
+      "blanket templates"
+      (check-equal? ((☯ (~> (clos string-append "a" __₁ "b" __₂ "c") (_ "q"))) "p")
+                    "apbqc")
+      (check-equal? ((☯ (~> (clos string-append "a" __₂ "b" __₁ "c") (_ "q"))) "p")
+                    "aqbpc"))))
 
    (test-suite
     "language extension"
