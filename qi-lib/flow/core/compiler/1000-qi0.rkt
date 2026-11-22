@@ -475,7 +475,7 @@ already handled during expansion by Syntax Spec.
                                    (syntax->list #'(arg ...)))
        #:with (envarg ...) (generate-temporaries (attribute envpos))
        #:with (apparg ...) (map (λ (s)
-                                  (if (eq? '_₂ (syntax-e s))
+                                  (if (eq? '_₀ (syntax-e s))
                                       (datum->syntax s '_)
                                       s))
                                 (syntax->list #'(arg ...)))

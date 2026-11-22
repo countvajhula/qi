@@ -184,12 +184,12 @@ core language's use of #%app, etc.).
     (~> (~literal apply) #'appleye)
     (~>/form (clos f)
              #:when (eq? 'right (syntax-property this-syntax 'chirality))
-             #'(clos f __₂ __₁))
+             #'(clos f __₀ __₁))
     (~>/form (clos f)
-             #'(clos f __₁ __₂))
-    (~>/form (clos onex prarg-pre ... (~datum __₁) prarg-mid ... (~datum __₂) prarg-post ...)
+             #'(clos f __₁ __₀))
+    (~>/form (clos onex prarg-pre ... (~datum __₁) prarg-mid ... (~datum __₀) prarg-post ...)
              #'(clos onex #:left (prarg-pre ...) (prarg-mid ...) (prarg-post ...)))
-    (~>/form (clos onex prarg-pre ... (~datum __₂) prarg-mid ... (~datum __₁) prarg-post ...)
+    (~>/form (clos onex prarg-pre ... (~datum __₀) prarg-mid ... (~datum __₁) prarg-post ...)
              #'(clos onex #:right (prarg-pre ...) (prarg-mid ...) (prarg-post ...)))
     clos
     (clos onex:closed-floe #:left (prarg-pre:racket-expr ...) (prarg-mid:racket-expr ...) (prarg-post:racket-expr ...))
@@ -267,7 +267,7 @@ core language's use of #%app, etc.).
 
   (nonterminal closure-arg
     (~datum _₁)
-    (~datum _₂)
+    (~datum _₀)
     k:keyword
     e:racket-expr)
 
