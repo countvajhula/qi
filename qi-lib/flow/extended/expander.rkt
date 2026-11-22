@@ -187,15 +187,14 @@ core language's use of #%app, etc.).
              #'(clos f __₂ __₁))
     (~>/form (clos f)
              #'(clos f __₁ __₂))
-    clos
-    (clos onex:closed-floe #:left (prarg-pre:racket-expr ...) (prarg-mid:racket-expr ...) (prarg-post:racket-expr ...))
-    (clos onex:closed-floe #:right (prarg-pre:racket-expr ...) (prarg-mid:racket-expr ...) (prarg-post:racket-expr ...))
-    (clos onex:closed-floe a:racket-expr ... (~datum _₁) b:racket-expr ... (~datum _₂) c:racket-expr ...)
-    (clos onex:closed-floe a:racket-expr ... (~datum _₂) b:racket-expr ... (~datum _₁) c:racket-expr ...)
     (~>/form (clos onex prarg-pre ... (~datum __₁) prarg-mid ... (~datum __₂) prarg-post ...)
              #'(clos onex #:left (prarg-pre ...) (prarg-mid ...) (prarg-post ...)))
     (~>/form (clos onex prarg-pre ... (~datum __₂) prarg-mid ... (~datum __₁) prarg-post ...)
              #'(clos onex #:right (prarg-pre ...) (prarg-mid ...) (prarg-post ...)))
+    clos
+    (clos onex:closed-floe #:left (prarg-pre:racket-expr ...) (prarg-mid:racket-expr ...) (prarg-post:racket-expr ...))
+    (clos onex:closed-floe #:right (prarg-pre:racket-expr ...) (prarg-mid:racket-expr ...) (prarg-post:racket-expr ...))
+    (clos onex:closed-floe a:closure-arg ...)
     (esc ex:racket-expr)
     (~> ((~literal lambda) e ...)
         #'(esc (lambda e ...)))
@@ -266,11 +265,16 @@ core language's use of #%app, etc.).
     ((~datum expr) g:racket-expr)
     ((~datum const) g:racket-expr))
 
+  (nonterminal closure-arg
+    (~datum _₁)
+    (~datum _₂)
+    k:keyword
+    e:racket-expr)
+
   (nonterminal arg-stx
     (~datum _)
     (~datum __)
     k:keyword
-
     e:racket-expr))
 
 

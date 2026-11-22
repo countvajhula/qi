@@ -1671,18 +1671,30 @@
                     "aqbpc"))
      (test-suite
       "fine templates"
-      ;; Currently, exactly one _₁ and one _₂ template variable are accepted
-      ;; by the expander, as the datums _₁ and _₂ when treated as racket-expr
-      ;; end up getting wrapped with (#%host-expression ...).
-      ;; (check-equal? ((☯ (~> (clos string-append "a" _₁ "c" _₂ _₁ "f")
-      ;;                       (_ "d")))
-      ;;                "b" "e")
-      ;;               "abcde")
-      ;; (check-equal? ((☯ (~> (clos string-append "a" _₂ "c" _₁ "e" _₂)
-      ;;                       (_ "b" "f")))
-      ;;                "d")
-      ;;               "aqbpc")
-      )))
+      (check-equal? ((☯ (~> (clos string-append "a" _₁ "c" _₂ _₁ "f")
+                            (_ "d")))
+                     "b" "e")
+                    "abcdef")
+      (check-equal? ((☯ (~> (clos string-append "a" _₂ "c" _₁ "e" _₂)
+                            (_ "b" "f")))
+                     "d")
+                    "abcdef")
+      (test-suite
+       "keyword arguments"
+       (let ([~ (λ (#:key init . args)
+                  (apply string-append init args))])
+         (check-equal? ((☯ (~> (clos ~ #:key _₁ "a" _₂ "c" _₁ "e" _₂)
+                               (_ "b" "f")))
+                        "0" "d")
+                       "0abcdef")
+         (check-equal? ((☯ (~> (clos ~ "a" _₂ "c" _₁ #:key _₁ "e" _₂)
+                               (_ "b" "f")))
+                        "d" "0")
+                       "0abcdef")
+         (check-equal? ((☯ (~> (clos ~ #:key _₂ "a" _₂ "c" _₁ "e" _₂)
+                               (_ "0" "b" "f")))
+                        "d")
+                       "0abcdef"))))))
 
    (test-suite
     "language extension"
