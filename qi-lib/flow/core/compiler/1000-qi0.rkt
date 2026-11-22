@@ -468,6 +468,22 @@ already handled during expansion by Syntax Spec.
                                 (~> (gen args) △)
                                 (gen prarg-post ...))
                             onex)))]
+      [(_ onex arg ...)
+       #:when (memq '_₁ (syntax->datum #'(arg ...)))
+       #:with (envpos ...) (filter (λ (s)
+                                     (eq? '_₁ (syntax-e s)))
+                                   (syntax->list #'(arg ...)))
+       #:with (envarg ...) (generate-temporaries (attribute envpos))
+       #:with (apparg ...) (map (λ (s)
+                                  (if (eq? '_₂ (syntax-e s))
+                                      (datum->syntax s '_)
+                                      s))
+                                (syntax->list #'(arg ...)))
+       #:with (combarg ...) (replace-with-variables '_₁
+                                                    (attribute apparg)
+                                                    (attribute envarg))
+       #'(λ (envarg ...)
+           (fancy:#%app (qi0->racket onex) combarg ...))]
       [_:id
        #:do [(define chirality (syntax-property stx 'chirality))]
        (if (and chirality (eq? chirality 'right))

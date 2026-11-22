@@ -1668,7 +1668,21 @@
       (check-equal? ((☯ (~> (clos string-append "a" __₁ "b" __₂ "c") (_ "q"))) "p")
                     "apbqc")
       (check-equal? ((☯ (~> (clos string-append "a" __₂ "b" __₁ "c") (_ "q"))) "p")
-                    "aqbpc"))))
+                    "aqbpc"))
+     (test-suite
+      "fine templates"
+      ;; Currently, exactly one _₁ and one _₂ template variable are accepted
+      ;; by the expander, as the datums _₁ and _₂ when treated as racket-expr
+      ;; end up getting wrapped with (#%host-expression ...).
+      ;; (check-equal? ((☯ (~> (clos string-append "a" _₁ "c" _₂ _₁ "f")
+      ;;                       (_ "d")))
+      ;;                "b" "e")
+      ;;               "abcde")
+      ;; (check-equal? ((☯ (~> (clos string-append "a" _₂ "c" _₁ "e" _₂)
+      ;;                       (_ "b" "f")))
+      ;;                "d")
+      ;;               "aqbpc")
+      )))
 
    (test-suite
     "language extension"

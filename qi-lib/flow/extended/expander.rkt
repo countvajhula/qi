@@ -190,6 +190,8 @@ core language's use of #%app, etc.).
     clos
     (clos onex:closed-floe #:left (prarg-pre:racket-expr ...) (prarg-mid:racket-expr ...) (prarg-post:racket-expr ...))
     (clos onex:closed-floe #:right (prarg-pre:racket-expr ...) (prarg-mid:racket-expr ...) (prarg-post:racket-expr ...))
+    (clos onex:closed-floe a:racket-expr ... (~datum _₁) b:racket-expr ... (~datum _₂) c:racket-expr ...)
+    (clos onex:closed-floe a:racket-expr ... (~datum _₂) b:racket-expr ... (~datum _₁) c:racket-expr ...)
     (~>/form (clos onex prarg-pre ... (~datum __₁) prarg-mid ... (~datum __₂) prarg-post ...)
              #'(clos onex #:left (prarg-pre ...) (prarg-mid ...) (prarg-post ...)))
     (~>/form (clos onex prarg-pre ... (~datum __₂) prarg-mid ... (~datum __₁) prarg-post ...)
