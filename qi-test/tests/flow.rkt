@@ -1668,7 +1668,22 @@
       (check-equal? ((☯ (~> (clos string-append "a" __₁ "b" __₂ "c") (_ "q"))) "p")
                     "apbqc")
       (check-equal? ((☯ (~> (clos string-append "a" __₂ "b" __₁ "c") (_ "q"))) "p")
-                    "aqbpc"))
+                    "aqbpc")
+      ;; TODO: keyword arguments (lexical, unlike fine template which supports dynamic)
+      ;; are currently not supported in closures with blanket templates.
+      ;; (test-suite
+      ;;  "keyword arguments"
+      ;;  (let ([~ (λ (#:key init . args)
+      ;;             (apply string-append init args))])
+      ;;    (check-equal? ((☯ (~> (clos ~ #:key "0" __₁ "b" __₂ "e")
+      ;;                          (_ "c" "d")))
+      ;;                   "a")
+      ;;                  "0abcde")
+      ;;    (check-equal? ((☯ (~> (clos ~ "a" __₂ "d" __₁ #:key "0")
+      ;;                          (_ "b" "c")))
+      ;;                   "e" "f")
+      ;;                  "0abcdef")))
+      )
      (test-suite
       "fine templates"
       (check-equal? ((☯ (~> (clos string-append "a" _₁ "c" _₂ _₁ "f")
