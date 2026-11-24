@@ -49,9 +49,10 @@
      (check-equal? (((flow get-f) 1) 2)
                    3
                    "a higher-order function may be used as a flow")
-     (check-equal? ((((flow (get-f))) 1) 2)
-                   3
-                   "closure syntax adds an extra application layer")
+     (check-exn exn:fail?
+                (thunk (convert-compile-time-error (flow (get-f))))
+                "empty partial application isn't allowed")
+
      (check-equal? ((flow (esc (get-f 1))) 2)
                    3
                    "fully qualified function used as a flow must still use esc")
@@ -1662,18 +1663,12 @@
      (check-equal? ((☯ (~> (clos *) (fanout 3) compose apply)) 5)
                    125
                    "closures may be operated on using ordinary flows")
-     (check-equal? (((☯ (+)) 1 2 3 4))
-                   10
-                   "empty application syntax produces a closure")
      (test-suite
       "blanket templates"
       (check-equal? ((☯ (~> (clos string-append "a" __₁ "b" __₀ "c") (_ "q"))) "p")
                     "apbqc")
       (check-equal? ((☯ (~> (clos string-append "a" __₀ "b" __₁ "c") (_ "q"))) "p")
                     "aqbpc")
-      (check-equal? ((☯ (~> (string-append __₁ "b" __₀) (_ "c"))) "a")
-                    "abc"
-                    "compact closure syntax supports blanket templates")
       ;; TODO: keyword arguments (lexical, unlike fine template which supports dynamic)
       ;; are currently not supported in closures with blanket templates.
       ;; (test-suite
@@ -1714,10 +1709,15 @@
          (check-equal? ((☯ (~> (clos ~ #:key _₀ "a" _₀ "c" _₁ "e" _₀)
                                (_ "0" "b" "f")))
                         "d")
-                       "0abcdef")))
-      (check-equal? ((☯ (~> (string-append _₁ "b" _₀) (_ "c"))) "a")
-                    "abc"
-                    "compact closure syntax supports fine templates"))))
+                       "0abcdef"))))
+     (test-suite
+      "flow and ☯ aliases"
+      (check-equal? ((☯ (~> (☯ sqr) (_ 3))))
+                    9
+                    "☯ is an alias for clos")
+      (check-equal? ((☯ (~> (flow sqr) (_ 3))))
+                    9
+                    "flow is an alias for clos"))))
 
    (test-suite
     "language extension"
