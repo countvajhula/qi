@@ -23,14 +23,15 @@
 
 (define-syntax-parse-rule (test-normalize name a b ...+)
   (begin
-    (test-true name
-               (phase1-eval
-                (equal? (syntax->datum
-                         (normalize-pass
-                          (expand-flow a)))
-                        (syntax->datum
-                         (normalize-pass
-                          (expand-flow b))))))
+    (test-equal? name
+                 (phase1-eval
+                  (syntax->datum
+                   (normalize-pass
+                    (expand-flow a))))
+                 (phase1-eval
+                  (syntax->datum
+                   (normalize-pass
+                    (expand-flow b)))))
     ...))
 
 

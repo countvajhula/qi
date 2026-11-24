@@ -17,11 +17,12 @@
          rackunit/text-ui)
 
 (define-syntax-parse-rule (test-expand name source target)
-  (test-true name
-             (phase1-eval
-              (equal? (syntax->datum
-                       (expand-flow source))
-                      (syntax->datum target)))))
+  (test-equal? name
+               (phase1-eval
+                (syntax->datum
+                 (expand-flow source)))
+               (phase1-eval
+                (syntax->datum target))))
 
 ;; TODO: these tests compare syntax as datums, but that's not sufficient
 ;; since the identifiers used may be bound differently which would affect
