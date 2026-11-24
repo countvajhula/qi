@@ -77,6 +77,11 @@
       [(thread _0 ... (esc (#%host-expression (~literal values))) _1 ...)
        #'(thread _0 ... _1 ...)]
       [(#%blanket-template (hex __))
+       ;; Note that hex is a `racket-expr` position, but the entire
+       ;; blanket template is `floe`. When we extract hex as a bare
+       ;; function identifier, we must wrap it in `esc` to lift it
+       ;; into `floe`. We could also consider generalizing the
+       ;; template application position to `floe`, as another option.
        #'(esc hex)]
       ;; return syntax unchanged if there are no applicable normalizations
       [_ stx]))
