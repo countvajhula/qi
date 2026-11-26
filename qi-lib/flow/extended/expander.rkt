@@ -66,6 +66,7 @@ core language's use of #%app, etc.).
     (as v:racket-var ...+)
     #:binding (scope (bind v) ... nested)
 
+    thread
     (thread f:floe ...)
     #:binding (nest f ... nested)
 

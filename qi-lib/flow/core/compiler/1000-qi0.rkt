@@ -50,8 +50,7 @@
     ;; routing
     [(~or* (~datum ⏚) (~datum ground)) ; NOTE: technically not core
      #'(qi0->racket (select))]
-    [((~or* (~datum ~>) (~datum thread)) onex:clause ...)
-     (thread-parser #'(~> onex ...))]
+    [e:thread-form (thread-parser #'e)]
     [e:relay-form (relay-parser #'e)]
     [e:tee-form (tee-parser #'e)]
     ;; map and filter
@@ -173,7 +172,8 @@ already handled during expansion by Syntax Spec.
                                      reversed-f ...)]
           [args
            (compose-with-values args
-                                reversed-f ...)])]))
+                                reversed-f ...)])]
+      [_:id #'thread-fn]))
 
   (define (sep-parser stx)
     (syntax-parse stx
@@ -376,7 +376,7 @@ already handled during expansion by Syntax Spec.
                             (apply (qi0->racket onex) args))
                            ...))])]
       [(~or* (~datum -<) (~datum tee))
-       #'repeat-values]))
+       #'tee-fn]))
 
   (define (relay-parser stx)
     (syntax-parse stx
@@ -386,12 +386,12 @@ already handled during expansion by Syntax Spec.
        ;; review this – this "map" behavior may not be natural
        ;; for relay. And map-values should probably end up being
        ;; used in a compiler optimization
-       #'map-values]))
+       #'relay]))
 
   (define (amp-parser stx)
     (syntax-parse stx
       [_:id
-       #'(qi0->racket ==)]
+       #'(curry map-values)]
       [(_ onex:clause)
        #'(curry map-values (qi0->racket onex))]))
 
