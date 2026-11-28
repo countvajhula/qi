@@ -1682,19 +1682,6 @@
      (check-equal? ((☯ (~> (== (~>> (clos string-append)) _) map)) "a" (list "b" "c" "d"))
                    '("ba" "ca" "da")
                    "clos respects threading direction at the site of definition")
-     (check-equal? ((☯ (~> (== (~> (-< (gen string-append)
-                                       _)
-                                   clos)
-                               _)
-                           map)) "a" (list "b" "c" "d"))
-                   '("ab" "ac" "ad"))
-     (check-equal? ((☯ (~> (== (~>> (-< (gen string-append)
-                                        _)
-                                    clos)
-                               _)
-                           map)) "a" (list "b" "c" "d"))
-                   '("ba" "ca" "da")
-                   "clos respects threading direction at the site of definition")
      (check-equal? ((☯ (~> (-< (~> second (clos *)) _) map)) (list 1 2 3))
                    '(2 4 6))
      (check-equal? ((☯ (~> (clos +) (_ 4))) 1 2 3)
@@ -1749,7 +1736,24 @@
          (check-equal? ((☯ (~> (clos ~ #:key _₀ "a" _₀ "c" _₁ "e" _₀)
                                (_ "0" "b" "f")))
                         "d")
-                       "0abcdef"))))))
+                       "0abcdef"))))
+     (test-suite
+      "bingdi inversion"
+      (check-equal? ((☯ (~> (-< (~> (gen string-append)
+                                    clos
+                                    (_ "a"))
+                                _)
+                            map))
+                     (list "b" "c" "d"))
+                    '("ab" "ac" "ad"))
+      (check-equal? ((☯ (~> (-< (~>> (gen string-append)
+                                     clos
+                                     (_ "a"))
+                                _)
+                            map))
+                     (list "b" "c" "d"))
+                    '("ba" "ca" "da")
+                    "clos respects threading direction at the site of definition"))))
 
    (test-suite
     "language extension"

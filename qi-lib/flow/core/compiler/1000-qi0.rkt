@@ -468,6 +468,10 @@ already handled during expansion by Syntax Spec.
                                 (~> (gen args) △)
                                 (gen prarg-post ...))
                             onex)))]
+      [(_ #:right () () ())
+       #'(λ (f) (curryr f))]
+      [(_ #:left () () ())
+       #'(λ (f) (curry f))]
       [(_ onex arg ...)
        #:when (memq '_₁ (syntax->datum #'(arg ...)))
        #:with (envpos ...) (filter (λ (s)
@@ -483,16 +487,7 @@ already handled during expansion by Syntax Spec.
                                                     (attribute apparg)
                                                     (attribute envarg))
        #'(λ (envarg ...)
-           (fancy:#%app (qi0->racket onex) combarg ...))]
-      [_:id
-       #:do [(define chirality (syntax-property stx 'chirality))]
-       (if (and chirality (eq? chirality 'right))
-           #'(case-lambda
-               [(f v) (curryr f v)]
-               [(f . args) (apply curryr f args)])
-           #'(case-lambda
-               [(f v) (curry f v)]
-               [(f . args) (apply curry f args)]))]))
+           (fancy:#%app (qi0->racket onex) combarg ...))]))
 
   (define (deforestable-clause-parser c)
     (syntax-parse c
